@@ -57,17 +57,22 @@ export const executeWorkflow = async (): Promise<WorkflowResponse> => {
 export const formatLastUpdated = (timestamp: number): string => {
   const date = new Date(timestamp * 1000);
   const now = new Date();
-  const diff = now.getTime() - date.getTime();
   
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-  const weeks = Math.floor(diff / 604800000);
-  const months = Math.floor(diff / 2592000000);
+  // Reset time to start of day for accurate day comparison
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const updateDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
   
-  if (minutes < 60) return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
-  if (hours < 24) return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
-  if (days < 7) return `${days} ${days === 1 ? 'day' : 'days'} ago`;
-  if (weeks < 4) return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
-  return `${months} ${months === 1 ? 'month' : 'months'} ago`;
+  const diffInMs = today.getTime() - updateDate.getTime();
+  const daysDiff = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+  
+  if (daysDiff === 0) {
+    return 'Today';
+  } else if (daysDiff === 1) {
+    return 'Yesterday';
+  } else if (daysDiff < 7) {
+    return `${daysDiff} days ago`;
+  } else {
+    const weeks = Math.floor(daysDiff / 7);
+    return `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+  }
 };

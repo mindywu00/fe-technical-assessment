@@ -6,17 +6,12 @@ interface TagProps {
 }
 
 export const Tag: React.FC<TagProps> = ({ label, color }) => {
-  const style = color ? {
-    backgroundColor: `${color}20`,
-    color: color,
-    borderColor: `${color}40`,
-  } : undefined;
-
   return (
-    <span
-      className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border"
-      style={style || { backgroundColor: '#E5E7EB', color: '#374151', borderColor: '#D1D5DB' }}
-    >
+    <span className="inline-flex items-center gap-2 text-xs text-gray-700 border border-gray-300 px-2 py-1 rounded-full">
+      <span 
+        className="w-2 h-2 rounded-full "
+        style={{ backgroundColor: color || '#9CA3AF' }}
+      />
       {label}
     </span>
   );
@@ -27,6 +22,23 @@ interface TagGroupProps {
 }
 
 export const TagGroup: React.FC<TagGroupProps> = ({ tags }) => {
+  if (tags.length > 1) {
+    return (
+      <div className="inline-flex items-center gap-2 text-xs text-gray-700 border border-gray-300 px-2 py-1 rounded-full">
+        <div className="flex gap-1">
+          {tags.map((tag, index) => (
+            <span 
+              key={index}
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: tag.color || '#9CA3AF' }}
+            />
+          ))}
+        </div>
+        <span>{tags.length} tags</span>
+      </div>
+    );
+  }
+  
   return (
     <div className="flex gap-2 flex-wrap">
       {tags.map((tag, index) => (
@@ -66,10 +78,12 @@ interface TypeBadgeProps {
 }
 
 export const TypeBadge: React.FC<TypeBadgeProps> = ({ type, icon }) => {
+  const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+  
   return (
     <div className="flex items-center gap-2">
       {icon && <span className="text-gray-400">{icon}</span>}
-      <span className="text-sm font-medium text-gray-900">{type}</span>
+      <span className="text-sm text-gray-500">{capitalizedType}</span>
     </div>
   );
 };
