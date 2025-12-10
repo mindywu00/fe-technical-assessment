@@ -4,6 +4,7 @@ import Table, { Column, TableRow } from '../components/Table/Table';
 import { TagGroup, Actions, TypeBadge } from '../components/Table/TableCell';
 import { executeWorkflow, formatLastUpdated, WorkflowData } from '../services/airops';
 import { useDebounce } from '../hooks/useDebounce';
+import Spinner from '../components/UI/Spinner';
 
 const WorkflowsPage: React.FC = () => {
   const [workflows, setWorkflows] = useState<WorkflowData[]>([]);
@@ -88,8 +89,8 @@ const WorkflowsPage: React.FC = () => {
       <main className="flex-1 bg-white overflow-auto">
         <div className="p-8">
           {loading && (
-            <div className="text-center py-12 text-gray-500">
-              Loading workflows...
+            <div className="flex justify-center py-12">
+              <Spinner size="lg" />
             </div>
           )}
           {error && (

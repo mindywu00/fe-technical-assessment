@@ -24,7 +24,7 @@ const Header: React.FC<HeaderProps> = ({
         <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
 
         <div className="flex items-start gap-4">
-          <Button variant="secondary" className="flex items-center gap-2">
+          <Button variant="secondary" className="flex items-center gap-2 py-2 px-3 text-sm">
             <span>Sort</span>
             <Icon name="chevron-down" size={16} />
           </Button>
