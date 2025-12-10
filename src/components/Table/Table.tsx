@@ -21,7 +21,7 @@ const Table: React.FC<TableProps> = ({ columns, data, className = '' }) => {
   return (
     <div className={`overflow-x-auto ${className}`}>
       <table className="w-full">
-        <thead>
+        <thead className="border-b border-gray-200">
           <tr>
             {columns.map((column) => (
               <th

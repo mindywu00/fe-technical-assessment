@@ -6,9 +6,18 @@ import Icon from '../UI/Icon';
 interface HeaderProps {
   title: string;
   className?: string;
+  searchValue?: string;
+  onSearchChange?: (value: string) => void;
+  searchPlaceholder?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ title, className = '' }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  title, 
+  className = '',
+  searchValue = '',
+  onSearchChange,
+  searchPlaceholder = 'Search...'
+}) => {
   return (
     <header className={`bg-white border-b border-gray-200 px-8 py-6 ${className}`}>
       <div className="flex items-start justify-between">
@@ -22,9 +31,11 @@ const Header: React.FC<HeaderProps> = ({ title, className = '' }) => {
 
           <Input
             type="text"
-            placeholder="Search..."
+            placeholder={searchPlaceholder}
             className="w-64"
             icon={<Icon name="search" size={20} className="text-gray-400" />}
+            value={searchValue}
+            onChange={(e) => onSearchChange?.(e.target.value)}
           />
         </div>
       </div>

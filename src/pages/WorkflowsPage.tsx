@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Header from '../components/Layout/Header';
 import Table, { Column, TableRow } from '../components/Table/Table';
 import { TagGroup, Actions, TypeBadge } from '../components/Table/TableCell';
 import { executeWorkflow, formatLastUpdated, WorkflowData } from '../services/airops';
+import { useDebounce } from '../hooks/useDebounce';
 
 const WorkflowsPage: React.FC = () => {
   const [workflows, setWorkflows] = useState<WorkflowData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Debounce the search query to avoid filtering on every keystroke
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
 
   useEffect(() => {
     const fetchWorkflows = async () => {
@@ -27,15 +32,43 @@ const WorkflowsPage: React.FC = () => {
     fetchWorkflows();
   }, []);
 
+  // Filter workflows based on the debounced search query
+  const filteredWorkflows = useMemo(() => {
+    if (!debouncedSearchQuery.trim()) {
+      return workflows;
+    }
+
+    const query = debouncedSearchQuery.toLowerCase();
+
+    return workflows.filter((workflow) => {
+      // Search in type
+      if (workflow.type.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      // Search in name
+      if (workflow.name.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      // Search in tags
+      if (workflow.tags.some(tag => tag.name.toLowerCase().includes(query))) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [workflows, debouncedSearchQuery]);
+
   const columns: Column[] = [
-    { key: 'type', header: 'Type', width: '15%' },
-    { key: 'name', header: 'Name', width: '25%' },
-    { key: 'tags', header: 'Tags', width: '25%' },
-    { key: 'lastUpdated', header: 'Last Updated', width: '20%' },
-    { key: 'actions', header: 'Actions', width: '15%' },
+    { key: 'type', header: 'Type', width: '10%' },
+    { key: 'name', header: 'Name', width: '50%' },
+    { key: 'tags', header: 'Tags', width: '15%' },
+    { key: 'lastUpdated', header: 'Last Updated', width: '15%' },
+    { key: 'actions', header: 'Actions', width: '10%' },
   ];
 
-  const tableData: TableRow[] = workflows.map((workflow) => ({
+  const tableData: TableRow[] = filteredWorkflows.map((workflow) => ({
     id: workflow.id,
     type: <TypeBadge type={workflow.type} />,
     name: workflow.name,
@@ -46,7 +79,12 @@ const WorkflowsPage: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Header title="Workflows" />
+      <Header 
+        title="Workflows"
+        searchValue={searchQuery}
+        onSearchChange={setSearchQuery}
+        searchPlaceholder="Search workflows"
+      />
       <main className="flex-1 bg-white overflow-auto">
         <div className="p-8">
           {loading && (
@@ -60,7 +98,14 @@ const WorkflowsPage: React.FC = () => {
             </div>
           )}
           {!loading && !error && (
-            <Table columns={columns} data={tableData} />
+            <>
+              <Table columns={columns} data={tableData} />
+              {filteredWorkflows.length === 0 && searchQuery && (
+                <div className="text-center py-12 text-gray-500">
+                  No workflows found matching "{searchQuery}"
+                </div>
+              )}
+            </>
           )}
         </div>
       </main>
