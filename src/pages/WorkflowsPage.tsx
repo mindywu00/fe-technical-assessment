@@ -4,6 +4,7 @@ import Table, { Column, TableRow } from '../components/Table/Table';
 import { TagGroup, Actions, TypeBadge } from '../components/Table/TableCell';
 import { executeWorkflow, formatLastUpdated, WorkflowData } from '../services/airops';
 import { useDebounce } from '../hooks/useDebounce';
+import { DEBOUNCE_DELAY, DEFAULT_ITEM_COUNT } from '../constants';
 import Spinner from '../components/UI/Spinner';
 
 const WorkflowsPage: React.FC = () => {
@@ -13,13 +14,13 @@ const WorkflowsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   // Debounce the search query to avoid filtering on every keystroke
-  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+  const debouncedSearchQuery = useDebounce(searchQuery, DEBOUNCE_DELAY);
 
   useEffect(() => {
     const fetchWorkflows = async () => {
       try {
         setLoading(true);
-        const response = await executeWorkflow(10);
+        const response = await executeWorkflow(DEFAULT_ITEM_COUNT);
         setWorkflows(response.data);
         setError(null);
       } catch (err) {

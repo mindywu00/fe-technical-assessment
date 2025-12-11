@@ -1,4 +1,5 @@
 import React from 'react';
+import { TABLE_ROW_HEIGHT } from '../../constants';
 
 export interface Column {
   key: string;
@@ -22,7 +23,7 @@ const Table: React.FC<TableProps> = ({ columns, data, className = '' }) => {
     <div className={`overflow-x-auto ${className}`}>
       <table className="w-full">
         <thead className="border-b border-gray-200">
-          <tr className="h-[65px]">
+          <tr style={{ height: `${TABLE_ROW_HEIGHT}px` }}>
             {columns.map((column) => (
               <th
                 key={column.key}
@@ -38,7 +39,8 @@ const Table: React.FC<TableProps> = ({ columns, data, className = '' }) => {
           {data.map((row) => (
             <tr
               key={row.id}
-              className="h-[65px] hover:bg-gray-50 transition-colors"
+              className="hover:bg-gray-50 transition-colors"
+              style={{ height: `${TABLE_ROW_HEIGHT}px` }}
             >
               {columns.map((column) => (
                 <td
