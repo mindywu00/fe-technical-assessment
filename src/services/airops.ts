@@ -20,7 +20,7 @@ export interface WorkflowResponse {
   data: WorkflowData[];
 }
 
-export const executeWorkflow = async (): Promise<WorkflowResponse> => {
+export const executeWorkflow = async (totalCount: number): Promise<WorkflowResponse> => {
   try {
     const response = await fetch(AIROPS_API_URL, {
       method: 'POST',
@@ -29,7 +29,9 @@ export const executeWorkflow = async (): Promise<WorkflowResponse> => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        inputs: {},
+        inputs: {
+          item_count: totalCount,
+        },
       }),
     });
     

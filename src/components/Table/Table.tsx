@@ -22,11 +22,11 @@ const Table: React.FC<TableProps> = ({ columns, data, className = '' }) => {
     <div className={`overflow-x-auto ${className}`}>
       <table className="w-full">
         <thead className="border-b border-gray-200">
-          <tr>
+          <tr className="h-[65px]">
             {columns.map((column) => (
               <th
                 key={column.key}
-                className="px-6 py-3 text-left text-sm font-bold text-black"
+                className="px-6 text-left text-sm font-semibold text-black"
                 style={{ width: column.width }}
               >
                 {column.header}
@@ -38,12 +38,12 @@ const Table: React.FC<TableProps> = ({ columns, data, className = '' }) => {
           {data.map((row) => (
             <tr
               key={row.id}
-              className="hover:bg-gray-50 transition-colors"
+              className="h-[65px] hover:bg-gray-50 transition-colors"
             >
               {columns.map((column) => (
                 <td
                   key={`${row.id}-${column.key}`}
-                  className="px-6 py-4 text-sm text-gray-900"
+                  className="px-6 text-sm text-gray-900"
                 >
                   {row[column.key]}
                 </td>

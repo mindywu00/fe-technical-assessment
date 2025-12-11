@@ -21,10 +21,10 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <header className={`bg-white border-b border-gray-200 px-8 py-6 ${className}`}>
       <div className="flex items-start justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+        <h1 className="text-3xl font-semibold text-gray-900">{title}</h1>
 
         <div className="flex items-start gap-4">
-          <Button variant="secondary" className="flex items-center gap-2 py-2 px-3 text-sm">
+          <Button variant="ghost" className="flex items-center gap-2 py-2 px-3 text-sm">
             <span>Sort</span>
             <Icon name="chevron-down" size={16} />
           </Button>
@@ -36,6 +36,7 @@ const Header: React.FC<HeaderProps> = ({
             icon={<Icon name="search" size={20} className="text-gray-400" />}
             value={searchValue}
             onChange={(e) => onSearchChange?.(e.target.value)}
+            style={{ boxShadow: '0px 1px 3px 0px #1018281A' }}
           />
         </div>
       </div>

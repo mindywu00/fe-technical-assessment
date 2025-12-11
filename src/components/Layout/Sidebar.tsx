@@ -22,21 +22,24 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   ];
 
   return (
-    <aside className={`w-64 bg-white border-r border-gray-200 flex flex-col ${className}`}>
-      <div className="p-6">
+    <aside className={`w-80 bg-white border-r border-gray-200 flex flex-col ${className}`}>
+      <div className="px-6 py-3">
         <Logo name="AirOps" />
       </div>
-
-      <div className="p-4">
-        <Button variant="ghost" className="w-full">
-          New
+      <div className="px-4">
+        <Button 
+          variant="ghost" 
+          className="w-full flex items-center justify-center gap-2"
+          style={{ boxShadow: '0px 1px 2px 0px #1018280D' }}
+        >
+          <span>New</span>
+          <img src="/plus.svg" alt="Add" className="w-4 h-4" />
         </Button>
       </div>
-
       <NavList>
         {routes.map((route) => (
           <li key={route.name}>
-            <NavLink href={route.href} active={route.active}>
+            <NavLink href={route.href} active={route.active} icon="/data-name.svg">
               {route.name}
             </NavLink>
           </li>

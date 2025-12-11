@@ -19,7 +19,7 @@ const WorkflowsPage: React.FC = () => {
     const fetchWorkflows = async () => {
       try {
         setLoading(true);
-        const response = await executeWorkflow();
+        const response = await executeWorkflow(10);
         setWorkflows(response.data);
         setError(null);
       } catch (err) {
@@ -72,9 +72,9 @@ const WorkflowsPage: React.FC = () => {
   const tableData: TableRow[] = filteredWorkflows.map((workflow) => ({
     id: workflow.id,
     type: <TypeBadge type={workflow.type} />,
-    name: workflow.name,
+    name: <span className="font-medium text-sm">📄 {workflow.name}</span>,
     tags: <TagGroup tags={workflow.tags} />,
-    lastUpdated: formatLastUpdated(workflow.lastUpdated),
+    lastUpdated: <span className="text-sm font-normal text-gray-500">{formatLastUpdated(workflow.lastUpdated)}</span>,
     actions: <Actions />,
   }));
 
@@ -87,7 +87,7 @@ const WorkflowsPage: React.FC = () => {
         searchPlaceholder="Search workflows"
       />
       <main className="flex-1 bg-white overflow-auto">
-        <div className="p-8">
+        <div className="px-8">
           {loading && (
             <div className="flex justify-center py-12">
               <Spinner size="lg" />
