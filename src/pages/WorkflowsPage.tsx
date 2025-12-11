@@ -73,7 +73,12 @@ const WorkflowsPage: React.FC = () => {
   const tableData: TableRow[] = filteredWorkflows.map((workflow) => ({
     id: workflow.id,
     type: <TypeBadge type={workflow.type} />,
-    name: <span className="font-medium text-sm">📄 {workflow.name}</span>,
+    name: (
+      <span className="font-medium text-sm flex items-center">
+        <span className="mr-2">📄</span>
+        <span>{workflow.name}</span>
+      </span>
+    ),
     tags: <TagGroup tags={workflow.tags} />,
     lastUpdated: <span className="text-sm font-normal text-gray-500">{formatLastUpdated(workflow.lastUpdated)}</span>,
     actions: <Actions />,
