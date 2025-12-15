@@ -9,7 +9,7 @@ export interface Column {
 
 export interface TableRow {
   id: string | number;
-  [key: string]: any;
+  [key: string]: React.ReactNode;
 }
 
 interface TableProps {

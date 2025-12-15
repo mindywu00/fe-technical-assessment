@@ -1,7 +1,6 @@
 import React from 'react';
-import Button from '../UI/Button';
 import Input from '../UI/Input';
-import Icon from '../UI/Icon';
+import Dropdown, { DropdownOption } from '../UI/Dropdown';
 
 interface HeaderProps {
   title: string;
@@ -9,14 +8,23 @@ interface HeaderProps {
   searchValue?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
+  sortBy?: string;
+  onSortChange?: (sort: string) => void;
 }
+
+const sortOptions: DropdownOption[] = [
+  { value: 'name', label: 'Name' },
+  { value: 'lastUpdated', label: 'Last Updated' },
+];
 
 const Header: React.FC<HeaderProps> = ({ 
   title, 
   className = '',
   searchValue = '',
   onSearchChange,
-  searchPlaceholder = 'Search...'
+  searchPlaceholder = 'Search...',
+  sortBy = 'name',
+  onSortChange
 }) => {
   return (
     <header className={`bg-white border-b border-gray-200 px-8 py-6 ${className}`}>
@@ -24,16 +32,18 @@ const Header: React.FC<HeaderProps> = ({
         <h1 className="text-3xl font-semibold text-gray-900">{title}</h1>
 
         <div className="flex items-start gap-4">
-          <Button variant="ghost" className="flex items-center gap-2 py-2 px-3 text-sm">
-            <span>Sort</span>
-            <Icon name="chevron-down" size={16} />
-          </Button>
+          <Dropdown
+            options={sortOptions}
+            value={sortBy}
+            onChange={(value) => onSortChange?.(value)}
+            label="Sort"
+          />
 
           <Input
             type="text"
             placeholder={searchPlaceholder}
             className="w-64"
-            icon={<Icon name="search" size={20} className="text-gray-400" />}
+            icon={<img src="./search.svg" alt="Search" className="w-4 h-4 opacity-60" />}
             value={searchValue}
             onChange={(e) => onSearchChange?.(e.target.value)}
             style={{ boxShadow: '0px 1px 3px 0px #1018281A' }}

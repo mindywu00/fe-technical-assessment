@@ -11,14 +11,14 @@ interface SidebarProps {
 interface Route {
   name: string;
   href: string;
-  active?: boolean;
+  icon?: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
   const routes: Route[] = [
-    { name: 'Data Name', href: '#', active: false },
-    { name: 'Monitoring', href: '#', active: false },
-    { name: 'Settings', href: '#', active: false },
+    { name: 'Data Name', href: '#', icon: '/data-name.svg' },
+    { name: 'Monitoring', href: '#', icon: '/monitoring.svg' },
+    { name: 'Settings', href: '#', icon: '/settings.svg' },
   ];
 
   return (
@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className = '' }) => {
       <NavList>
         {routes.map((route) => (
           <li key={route.name}>
-            <NavLink href={route.href} active={route.active} icon="/data-name.svg">
+            <NavLink href={route.href} icon={route.icon}>
               {route.name}
             </NavLink>
           </li>
