@@ -2,11 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Header from '../components/Layout/Header';
 import Table, { Column, TableRow } from '../components/Table/Table';
 import { TagGroup, Actions } from '../components/Table/TableCell';
-import { executeWorkflow, formatLastUpdated, WorkflowData } from '../services/airops';
+import { executeWorkflow, WorkflowData } from '../services/airops';
+import { formatLastUpdated } from '../utils/format';
 import { useDebounce } from '../hooks/useDebounce';
 import { DEBOUNCE_DELAY, DEFAULT_ITEM_COUNT } from '../constants';
 import Spinner from '../components/UI/Spinner';
-import { capitalize } from '../utils/capitalize';
+import { capitalize } from '../utils/format';
 
 const WorkflowsPage: React.FC = () => {
   const [workflows, setWorkflows] = useState<WorkflowData[]>([]);

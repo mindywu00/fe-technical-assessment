@@ -1,7 +1,7 @@
 import React from 'react';
 import Tooltip from '../UI/Tooltip';
 import IconButton from '../UI/IconButton';
-import { capitalize } from '../../utils/capitalize';
+import { capitalize } from '../../utils/format';
 import { DEFAULT_TAG_COLOR } from '../../constants';
 
 interface TagProps {
